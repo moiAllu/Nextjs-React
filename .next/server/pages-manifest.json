@@ -3,7 +3,5 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
   "/new-meetup": "pages/new-meetup.js",
-  "/[meetupId]": "pages/[meetupId].js",
-  "/next/dist/pages/_error": "pages/next/dist/pages/_error.js",
   "/": "pages/index.js"
 }
