@@ -8,7 +8,7 @@ const newDescription = (props) => {
       <Head>
         <title>{props.CarXData.title}</title>
         <meta
-          name={props.CarXData.title}
+          name='description'
           content={props.CarXData.description}
         />
       </Head>
