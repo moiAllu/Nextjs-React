@@ -1,13 +1,24 @@
 import NewDetailPage from "../../components/meetups/newDetailPage";
 import { MongoClient, ObjectId } from "mongodb";
+import { Fragment } from "react/cjs/react.production.min";
+import Head from "next/head";
 const newDescription = (props) => {
   return (
-    <NewDetailPage
-      image={props.CarXData.image}
-      title={props.CarXData.title}
-      description={props.CarXData.description}
-      address={props.CarXData.address}
-    />
+    <Fragment>
+      <Head>
+        <title>{props.CarXData.title}</title>
+        <meta
+          name={props.CarXData.title}
+          content={props.CarXData.description}
+        />
+      </Head>
+      <NewDetailPage
+        image={props.CarXData.image}
+        title={props.CarXData.title}
+        description={props.CarXData.description}
+        address={props.CarXData.address}
+      />
+    </Fragment>
   );
 };
 export async function getStaticPaths() {
@@ -32,13 +43,16 @@ export async function getStaticProps(context) {
   );
   const db = client.db();
   const carsCollection = db.collection("carX");
-  const selectedCar = await carsCollection.findOne({ _id: ObjectId(contextPath) });
+  const selectedCar = await carsCollection.findOne({
+    _id: ObjectId(contextPath),
+  });
   client.close();
   console.log(contextPath);
   return {
     props: {
       CarXData: {
         id: selectedCar._id.toString(),
+        image: selectedCar.image,
         title: selectedCar.title,
         address: selectedCar.address,
         description: selectedCar.description,
