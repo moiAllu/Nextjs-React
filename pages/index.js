@@ -1,5 +1,7 @@
 import MeetupList from "../components/meetups/MeetupList";
 import { MongoClient } from "mongodb";
+import { Fragment } from "react";
+import Head from 'next/head';
 
 // const dumyData = [
 //   {
@@ -23,7 +25,15 @@ import { MongoClient } from "mongodb";
 // ];
 
 const homePage = (props) => {
-  return <MeetupList meetups={props.CarX} />;
+  return (
+      <Fragment>
+          <Head>
+              <title>CarX</title>
+              <meta name="description" content="Every supports Car around me!"/>
+          </Head>
+          <MeetupList meetups={props.CarX} />
+      </Fragment>
+  );
 };
 export async function getStaticProps() {
   const client = await MongoClient.connect(
