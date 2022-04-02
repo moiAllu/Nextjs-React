@@ -1,5 +1,5 @@
 import NewDetailPage from "../../components/meetups/newDetailPage";
-
+import { MongoClient } from "mongodb";
 const newDescription = () => {
   return (
     <NewDetailPage
@@ -11,19 +11,15 @@ const newDescription = () => {
   );
 };
 export async function getStaticPaths(){
+    const client=MongoClient.connect('mongodb+srv://AliQans:lawaA123@cluster0.r2ac1.mongodb.net/carX?retryWrites=true&w=majority');
+    const db = client.db();
+    const carsCollection = db.collection("carX");
+    const carX_Dettail = await carsCollection.find({},{_id:1}).toArray();
     return{
         fallback:false,
-        paths:[
-            { params:{
-                meetupId:'m1'
-            },
-        },
-        {
-            params:{
-                meetupId:'m2',
-            }
-        }
-        ]
+        paths: carX_Dettail.map(id=>({
+            params:{meetupId: id._id.toSting(),}
+        }))
     }
 }
 export  async function getStaticProps(context){
