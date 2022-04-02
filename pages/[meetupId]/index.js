@@ -1,38 +1,50 @@
 import NewDetailPage from "../../components/meetups/newDetailPage";
-import { MongoClient } from "mongodb";
-const newDescription = () => {
+import { MongoClient, ObjectId } from "mongodb";
+const newDescription = (props) => {
   return (
     <NewDetailPage
-      image="https://c4.wallpaperflare.com/wallpaper/451/732/57/nissan-gtr-r35-red-car-wallpaper-preview.jpg"
-      title="Nissan GTR R34"
-      description="A rocket bunny kit attached to 2019 Gtr, where Hks mid pige,Hks turbo,Hks ECU, has been upgraded."
-      address="Malborne, Australia"
+      image={props.CarXData.image}
+      title={props.CarXData.title}
+      description={props.CarXData.description}
+      address={props.CarXData.address}
     />
   );
 };
-export async function getStaticPaths(){
-    const client=MongoClient.connect('mongodb+srv://AliQans:lawaA123@cluster0.r2ac1.mongodb.net/carX?retryWrites=true&w=majority');
-    const db = client.db();
-    const carsCollection = db.collection("carX");
-    const carX_Dettail = await carsCollection.find({},{_id:1}).toArray();
-    return{
-        fallback:false,
-        paths: carX_Dettail.map(id=>({
-            params:{meetupId: id._id.toSting(),}
-        }))
-    }
+export async function getStaticPaths() {
+  const client = await MongoClient.connect(
+    "mongodb+srv://AliQans:lawaA123@cluster0.r2ac1.mongodb.net/carX?retryWrites=true&w=majority"
+  );
+  const db = client.db();
+  const carsCollection = db.collection("carX");
+  const carX_Dettail = await carsCollection.find({}, { _id: 1 }).toArray();
+  client.close();
+  return {
+    fallback: false,
+    paths: carX_Dettail.map((Genrated) => ({
+      params: { meetupId: Genrated._id.toString() },
+    })),
+  };
 }
-export  async function getStaticProps(context){
-    const contextPath=context.params.meetupId;
-    console.log(contextPath);
-    return{
-        props:{
-            image: "https://c4.wallpaperflare.com/wallpaper/451/732/57/nissan-gtr-r35-red-car-wallpaper-preview.jpg",
-            id:contextPath,
-            title: "Nissan GTR R34",
-            description : "A rocket bunny kit attached to 2019 Gtr, where Hks mid pige,Hks turbo,Hks ECU, has been upgraded",
-            address: "Malborne, Australia",
-        },revalidate:1,
-    }
+export async function getStaticProps(context) {
+  const contextPath = context.params.meetupId;
+  const client = await MongoClient.connect(
+    "mongodb+srv://AliQans:lawaA123@cluster0.r2ac1.mongodb.net/carX?retryWrites=true&w=majority"
+  );
+  const db = client.db();
+  const carsCollection = db.collection("carX");
+  const selectedCar = await carsCollection.findOne({ _id: ObjectId(contextPath) });
+  client.close();
+  console.log(contextPath);
+  return {
+    props: {
+      CarXData: {
+        id: selectedCar._id.toString(),
+        title: selectedCar.title,
+        address: selectedCar.address,
+        description: selectedCar.description,
+      },
+    },
+    revalidate: 1,
+  };
 }
 export default newDescription;
