@@ -7,10 +7,7 @@ const newDescription = (props) => {
     <Fragment>
       <Head>
         <title>{props.CarXData.title}</title>
-        <meta
-          name='description'
-          content={props.CarXData.description}
-        />
+        <meta name="description" content={props.CarXData.description} />
       </Head>
       <NewDetailPage
         image={props.CarXData.image}
@@ -30,7 +27,7 @@ export async function getStaticPaths() {
   const carX_Dettail = await carsCollection.find({}, { _id: 1 }).toArray();
   client.close();
   return {
-    fallback: false,
+    fallback: "blocking",
     paths: carX_Dettail.map((Genrated) => ({
       params: { meetupId: Genrated._id.toString() },
     })),
