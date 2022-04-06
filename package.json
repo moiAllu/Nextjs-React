@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "dotenv": "^16.0.0",
+    "dotenv-webpack": "^1.7.0",
     "mongodb": "^4.4.1",
     "next": "10.0.6",
     "react": "17.0.1",

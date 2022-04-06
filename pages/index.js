@@ -36,8 +36,9 @@ const homePage = (props) => {
   );
 };
 export async function getStaticProps() {
+  const pass=process.env.PASSWORD;
   const client = await MongoClient.connect(
-    "mongodb+srv://AliQans:lawaA123@cluster0.r2ac1.mongodb.net/carX?retryWrites=true&w=majority"
+    `mongodb+srv://AliQans:${pass}@cluster0.r2ac1.mongodb.net/carX?retryWrites=true&w=majority`
   );
   const db = client.db();
   const carsCollection = db.collection("carX");

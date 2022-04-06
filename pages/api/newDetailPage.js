@@ -1,10 +1,12 @@
 import { MongoClient } from "mongodb";
 async function handler(req,res) {
   if (req.method === "POST") {
+    const Key=process.env.PASSWORD;
     const data = req.body;
 
     const client = await MongoClient.connect(
-      "mongodb+srv://AliQans:lawaA123@cluster0.r2ac1.mongodb.net/carX?retryWrites=true&w=majority"
+      
+      `mongodb+srv://AliQans:${Key}@cluster0.r2ac1.mongodb.net/carX?retryWrites=true&w=majority`
     );
     const db = client.db();
     const carsCollection = db.collection("carX");
