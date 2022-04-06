@@ -20,9 +20,9 @@ const newDescription = (props) => {
   );
 };
 export async function getStaticPaths() {
-const Key=process.env.PASSWORD;
+  const Key = process.env.PASSWORD;
   const client = await MongoClient.connect(
-    `mongodb+srv://AliQans: ${Key}@cluster0.r2ac1.mongodb.net/carX?retryWrites=true&w=majority`
+    `mongodb+srv://AliQans:${Key}@cluster0.r2ac1.mongodb.net/carX?retryWrites=true&w=majority`
   );
   const db = client.db();
   const carsCollection = db.collection("carX");
@@ -36,10 +36,10 @@ const Key=process.env.PASSWORD;
   };
 }
 export async function getStaticProps(context) {
-  const Key=process.env.PASSWORD;
+  const Key = process.env.PASSWORD;
   const contextPath = context.params.meetupId;
   const client = await MongoClient.connect(
-    `mongodb+srv://AliQans: ${Key}@cluster0.r2ac1.mongodb.net/carX?retryWrites=true&w=majority`
+    `mongodb+srv://AliQans:${Key}@cluster0.r2ac1.mongodb.net/carX?retryWrites=true&w=majority`
   );
   const db = client.db();
   const carsCollection = db.collection("carX");
